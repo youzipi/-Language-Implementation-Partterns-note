@@ -38,12 +38,17 @@ public class CalculateLexer extends Lexer {
                     consume();
                     return new CalculateToken(RBREAK, ")");
                 case '+':
-                case '-':
-                case '*':
-                case '/':
-                    t = new CalculateToken(OPERATION, String.valueOf(c));
                     consume();
-                    return t;
+                    return new CalculateToken(ADD, "+");
+                case '-':
+                    consume();
+                    return new CalculateToken(SUBTRACT, "-");
+                case '*':
+                    consume();
+                    return new CalculateToken(MULTIPLY, "*");
+                case '/':
+                    consume();
+                    return new CalculateToken(DIVIDE, "/");
                 default:
                     if(isNUMBER() || isPOINT())
                         return NUMBER();
