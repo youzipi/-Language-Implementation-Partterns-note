@@ -1,4 +1,4 @@
-package lexer;
+package parsing.lexer;
 
 import java.util.LinkedList;
 import java.util.Stack;

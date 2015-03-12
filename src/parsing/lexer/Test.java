@@ -1,4 +1,4 @@
-package lexer;
+package parsing.lexer;
 
 /**
  * project_name:LIP
