@@ -11,8 +11,9 @@ public class ListLexer extends Lexer {
     public static int COMMA = 3;
     public static int LBREAK = 4;
     public static int RBREAK = 5;
+    public static int EQUAL = 6;
 
-    public static String[] tokenNames = {"n/a", "<EOF>", "NAME", "COMMA", "LBREAK", "RBREAK"};
+    public static String[] tokenNames = {"n/a", "<EOF>", "NAME", "COMMA", "LBREAK", "RBREAK","EQUAL"};
 
     public ListLexer(String input) {
         super(input);
