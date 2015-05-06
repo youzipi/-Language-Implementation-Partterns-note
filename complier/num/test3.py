@@ -77,35 +77,46 @@ scat = ax.scatter(np.linspace(1, 50, 50), p, s=60, c=colors)
 scat.set_alpha(0.5)
 
 
+def upgrade(routee,route_best):
+    cut = int(np.random.rand(1)[0] * 10)
+    cut1 = int(np.random.rand(1)[0] * 10)
+    low = min(cut, cut1)
+    high = max(cut, cut1)
+
+    ran = np.random.permutation(range(POINTS_NUM))
+    empty = np.linspace(-1, -1, 10)
+
+    routee = np.hstack((empty[:low], route_best[low:high], empty[high:]))
+    print "routee",routee
+    f = 0
+    for t in ran:
+        if t not in routee:
+            if f < low:
+                routee[f] = t
+                f += 1
+            elif low <= f < high:
+                f = high
+                routee[f] = t
+                f += 1
+            elif high <= f < POINTS_NUM:
+                routee[f] = t
+                f += 1
+            else:
+                break
+
+    return routee
+
+
 def update_frogs():
     global r_w, r_b, r_g, routes, frogs
-    rest = np.array([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1])
     for i in range(5):
         for j in range(5):
-            cut = int(np.random.rand(1)[0] * 10)
-            cut1 = int(np.random.rand(1)[0] * 10)
-            low = min(cut,cut1)
-            high = max(cut,cut1)
-            ran = np.random.permutation(range(POINTS_NUM))
             print 'r_w[{0}]'.format(i), r_w[i]
             print 'r_b[{0}]'.format(i), r_b[i]
             temp_len = r_w[i]['length']
-            # r_w[i]['points'] = np.hstack((r_b[i]['points'][:cut], np.linspace(-1, -1, 10)[cut:]))
-            r_w[i]['points'] = np.hstack((np.linspace(-1, -1, 10)[:low],r_b[i]['points'][low:high], np.linspace(-1, -1, 10)[high:]))
-            #r_w[i]['points']=  np.hstack((r_b[i]['points'][:cut],rest[cut:]))
-            insert_i = 0
-            for t in ran:
-            #     if t not in r_w[i]['points']:
-            #         r_w[i]['points'][cut] = t
-            #         cut = cut + 1
-            #     if cut >= POINTS_NUM:
-            #         break
-                 if t not in r_w[i]['points']:
-                    if insert_i >= low:
 
-
+            r_w[i]['points'] = upgrade(r_w[i]['points'],r_b[i]['points'])
             l = cal_length(r_w[i]['points'])
-
             if l < temp_len:
                 print "update to ", l
                 r_w[i]['length'] = l
@@ -134,7 +145,7 @@ def update_frogs():
     routes = frogs.reshape(1, -1)
     try:
         routes.sort(order='length')
-    except ValueError:
+    except ValueError as e:
         print "ValueError({0})".format(e)
     print "routes",routes
     r_g = routes[0][0]
