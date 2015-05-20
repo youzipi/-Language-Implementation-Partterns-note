@@ -15,7 +15,7 @@ status = 0
 list = []
 
 
-file = open("D:/Desktop/test.txt")
+file = open("D:/Desktop/test.c")
 lines = file.readlines()
 print "lines=", len(lines)
 new_lines = []

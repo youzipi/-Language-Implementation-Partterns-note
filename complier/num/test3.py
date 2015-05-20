@@ -5,7 +5,7 @@ import random
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 import numpy as np
-from line_demo import MyLine
+#from line_demo import MyLine
 
 N = 20
 center = np.array([0.5, 0.5])
@@ -160,7 +160,7 @@ def update_plot(i):
     order = r_g['points'].astype(np.int32)
     p = points[order]
     text.set_text('i = r_g' )
-    times_text.set_text('times = %d' % i )
+    times_text.set_text('times = %3d' % i )
     len_text.set_text('len = %.3f' % r_g['length'])
     print "r_g.length=",r_g['length']
     update_frogs()
@@ -186,7 +186,7 @@ def init():
 
 
 # anim = animation.FuncAnimation(fig, update_plot, init_func=init,fargs = (fig, scat),frames = 100, interval = 500)
-anim = animation.FuncAnimation(fig, update_plot, init_func=init, frames=100, interval=500)
+anim = animation.FuncAnimation(fig, update_plot, init_func=init, frames=200, interval=100)
 
 plt.show()
 

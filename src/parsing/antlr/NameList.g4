@@ -8,5 +8,3 @@ NAME:('a'..'z') | ('A'..'Z')+;
 LBRACK : '[' ;
 RBRACK : ']' ;
 COMMA : ',' ;
-
-

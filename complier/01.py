@@ -64,5 +64,5 @@ class Test:
         for i in self.list:
             print i
             
-test = Test("D:/Desktop/test.txt")
+test = Test("D:/Desktop/test.c")
 test.process()
