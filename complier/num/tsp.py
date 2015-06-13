@@ -82,24 +82,28 @@ def upgrade(routee,route_best):
     cut1 = int(np.random.rand(1)[0] * 10)
     low = min(cut, cut1)
     high = max(cut, cut1)
-    part_best = route_best[low:high]
-    ruote_old = routee.copy()
-    
-    for t in range(routee.size):
-        if routee[t] in part_best:
-            routee[t] = -1
-        
-    temp = np.setxor1d(routee,ruote_old)
-    temp = temp[temp!=-1]
-    np.random.shuffle(temp)
 
-    j=0
-    for t in range(routee.size):
-        if routee[t] == -1:
-            routee[t] = temp[j]
-            j += 1
+    ran = np.random.permutation(range(POINTS_NUM))
+    empty = np.linspace(-1, -1, 10)
 
-    print "routee=",routee
+    routee = np.hstack((empty[:low], route_best[low:high], empty[high:]))
+    print "routee",routee
+    f = 0
+    for t in ran:
+        if t not in routee:
+            if f < low:
+                routee[f] = t
+                f += 1
+            elif low <= f < high:
+                f = high
+                routee[f] = t
+                f += 1
+            elif high <= f < POINTS_NUM:
+                routee[f] = t
+                f += 1
+            else:
+                break
+
     return routee
 
 
@@ -143,7 +147,7 @@ def update_frogs():
         routes.sort(order='length')
     except ValueError as e:
         print "ValueError({0})".format(e)
-    print "routes",routes
+    #print "routes",routes
     r_g = routes[0][0]
     print "r_g",r_g
 
@@ -152,6 +156,7 @@ def update_plot(i):
 
     global line, point_view, scat, routes,points
     #if i >= 50:
+    print "i=",i
     print "r_g['points']",r_g['points']
     order = r_g['points'].astype(np.int32)
     p = points[order]
@@ -182,7 +187,7 @@ def init():
 
 
 # anim = animation.FuncAnimation(fig, update_plot, init_func=init,fargs = (fig, scat),frames = 100, interval = 500)
-anim = animation.FuncAnimation(fig, update_plot, init_func=init, frames=200, interval=100)
+anim = animation.FuncAnimation(fig, update_plot, init_func=init, frames=200, interval=500)
 
 plt.show()
 
